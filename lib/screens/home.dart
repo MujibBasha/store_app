@@ -4,6 +4,7 @@ import 'package:backdrop/backdrop.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:store/consts/colors.dart';
 import 'package:store/widget/category.dart';
+import 'package:store/widget/popular_products.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -156,7 +157,63 @@ showIndicator: true,
                   ),
                 ),
 
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Popular Products',
+                        style:
+                        TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+                      ),
+                      Spacer(),
+                      FlatButton(
+                        onPressed: () {
+                          // Navigator.of(context)
+                          //     .pushNamed(Feeds.routeName, arguments: 'popular');
+                        },
+                        child: Text(
+                          'View all...',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 15,
+                              color: Colors.red),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 285,
+                  margin: EdgeInsets.symmetric(horizontal: 3),
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 3,//popularItems.length,
+                      itemBuilder: (BuildContext ctx, int index) {
+                        return PopularProducts(
+                          // imageUrl: popularItems[index].imageUrl,
+                          // title: popularItems[index].title,
+                          // description: popularItems[index].description,
+                          // price: popularItems[index].price,
+                        );
+
+                        //   ChangeNotifierProvider.value(
+                        //   value: popularItems[index],
+                        //   child: PopularProducts(
+                        //     // imageUrl: popularItems[index].imageUrl,
+                        //     // title: popularItems[index].title,
+                        //     // description: popularItems[index].description,
+                        //     // price: popularItems[index].price,
+                        //   ),
+                        // );
+                      }),
+                ),
+
                 SizedBox(height: 20,),
+
+
               ],
             ),
           ),

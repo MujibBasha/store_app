@@ -61,6 +61,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
             height: 150,
           ),
         ),
+
         Positioned(
           bottom: 0,
           left: 10,
@@ -77,7 +78,8 @@ class _CategoryWidgetState extends State<CategoryWidget> {
               ),
             ),
           ),
-        )
+        ),
+
       ],
     );
   }

@@ -29,8 +29,10 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: BackdropAppBar(
             flexibleSpace: Container(decoration: BoxDecoration(gradient:LinearGradient(
               colors: [
+
                 ColorsConsts.starterColor,
                 ColorsConsts.endColor,
+
               ]
             )),),
             title: Text("Home"),
@@ -58,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           frontLayer: SingleChildScrollView(
             child: Column(
+
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
@@ -142,7 +145,7 @@ showIndicator: true,
                   width: double.infinity,
                   height: 180,
                   child: ListView.builder(
-                    itemCount: 7,
+                    itemCount: 4,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext ctx, int index) {
                       return CategoryWidget(
@@ -151,6 +154,7 @@ showIndicator: true,
                     },
                   ),
                 ),
+                SizedBox(height: 20,),
               ],
             ),
           ),

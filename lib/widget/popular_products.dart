@@ -1,225 +1,166 @@
-ommerceApp/widget/popular_products.dart';
-import 'package:backdrop/app_bar.dart';
-import 'package:backdrop/button.dart';
-import 'package:backdrop/scaffold.dart';
+// import 'package:ECommerceApp/inner_screens/product_details.dart';
+// import 'package:ECommerceApp/models/product.dart';
+// import 'package:ECommerceApp/provider/cart_provider.dart';
+// import 'package:ECommerceApp/provider/favs_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_pro/carousel_pro.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
-  @override
-  _HomeState createState() => _HomeState();
-}
+class PopularProducts extends StatelessWidget {
+  // final String imageUrl;
+  // final String title;
+  // final String description;
+  // final double price;
 
-class _HomeState extends State<Home> {
-  List _carouselImages = [
-    'assets/images/carousel1.png',
-    'assets/images/carousel2.jpeg',
-    'assets/images/carousel3.jpg',
-    'assets/images/carousel4.png',
-  ];
-
-  List _brandImages = [
-    'assets/images/addidas.jpg',
-    'assets/images/apple.jpg',
-    'assets/images/dell.jpg',
-    'assets/images/h&m.jpg',
-    'assets/images/nike.jpg',
-    'assets/images/samsung.jpg',
-    'assets/images/huawei.jpg',
-  ];
+  // const PopularProducts(
+  //     {Key key, this.imageUrl, this.title, this.description, this.price})
+  //     : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final productsData = Provider.of<Products>(context);
-    productsData.fetchProducts();
-
-    final popularItems = productsData.popularProducts;
-    print('popularItems length ${popularItems.length}');
-    return Scaffold(
-      body: BackdropScaffold(
-        frontLayerBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        headerHeight: MediaQuery.of(context).size.height * 0.25,
-        appBar: BackdropAppBar(
-          title: Text("Home"),
-          leading: BackdropToggleButton(icon: AnimatedIcons.home_menu),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-                  ColorsConsts.starterColor,
-                  ColorsConsts.endColor
-                ])),
+    // final productsAttributes = Provider.of<Product>(context);
+    // final cartProvider = Provider.of<CartProvider>(context);
+    // final favsProvider = Provider.of<FavsProvider>(context);
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: 250,
+        decoration: BoxDecoration(
+          color: Theme.of(context).backgroundColor,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(
+              10.0,
+            ),
+            bottomRight: Radius.circular(10.0),
           ),
-          actions: <Widget>[
-            IconButton(
-              iconSize: 15,
-              padding: const EdgeInsets.all(10),
-              icon: CircleAvatar(
-                radius: 15,
-                backgroundColor: Colors.white,
-                child: CircleAvatar(
-                  radius: 13,
-                  backgroundImage: NetworkImage(
-                      'https://cdn1.vectorstock.com/i/thumb-large/62/60/default-avatar-photo-placeholder-profile-image-vector-21666260.jpg'),
-                ),
-              ),
-              onPressed: () {},
-            )
-          ],
         ),
-        backLayer: BackLayerMenu(),
-        frontLayer: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 190.0,
-                width: double.infinity,
-                child: Carousel(
-                  boxFit: BoxFit.fill,
-                  autoplay: true,
-                  animationCurve: Curves.fastOutSlowIn,
-                  animationDuration: Duration(milliseconds: 1000),
-                  dotSize: 5.0,
-                  dotIncreasedColor: Colors.purple,
-                  dotBgColor: Colors.black.withOpacity(0.2),
-                  dotPosition: DotPosition.bottomCenter,
-                  showIndicator: true,
-                  indicatorBgPadding: 5.0,
-                  images: [
-                    ExactAssetImage(_carouselImages[0]),
-                    ExactAssetImage(_carouselImages[1]),
-                    ExactAssetImage(_carouselImages[2]),
-                    ExactAssetImage(_carouselImages[3]),
-                  ],
-                ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(
+                10.0,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Categories',
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                height: 180,
-                child: ListView.builder(
-                  itemCount: 7,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext ctx, int index) {
-                    return CategoryWidget(
-                      index: index,
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
+              bottomRight: Radius.circular(10.0),
+            ),
+            onTap: (){},
+            //() => Navigator.pushNamed(context, ProductDetails.routeName,
+            //                 arguments: productsAttributes.id)
+            child: Column(
+              children: [
+                Stack(
                   children: [
-                    Text(
-                      'Popular Brands',
-                      style:
-                      TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+                    Container(
+                      height: 170,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage("productsAttributes.imageUrl"),
+                              fit: BoxFit.contain),),
                     ),
-                    Spacer(),
-                    FlatButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          BrandNavigationRailScreen.routeName,
-                          arguments: {
-                            7,
-                          },
-                        );
-                      },
-                      child: Text(
-                        'View all...',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 15,
-                            color: Colors.red),
+                    Positioned(
+                      right: 10,
+                      top: 8,
+                      child: Icon(
+                        Entypo.star,
+                        color: Colors.grey.shade800,
+                        // favsProvider.getFavsItems
+                        //     .containsKey(productsAttributes.id)
+                        //     ? Colors.red
+                        //     : Colors.grey.shade800,
                       ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                height: 210,
-                width: MediaQuery.of(context).size.width * 0.95,
-                child: Swiper(
-                  itemCount: _brandImages.length,
-                  autoplay: true,
-                  viewportFraction: 0.8,
-                  scale: 0.9,
-                  onTap: (index) {
-                    Navigator.of(context).pushNamed(
-                      BrandNavigationRailScreen.routeName,
-                      arguments: {
-                        index,
-                      },
-                    );
-                  },
-                  itemBuilder: (BuildContext ctx, int index) {
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    Positioned(
+                      right: 10,
+                      top: 8,
+                      child: Icon(
+                        Entypo.star_outlined,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Positioned(
+                      right: 12,
+                      bottom: 32.0,
                       child: Container(
-                        color: Colors.blueGrey,
-                        child: Image.asset(
-                          _brandImages[index],
-                          fit: BoxFit.fill,
+                        padding: EdgeInsets.all(10.0),
+                        color: Theme.of(context).backgroundColor,
+                        child: Text("\$",
+                         // '\$ ${productsAttributes.price}',
+                          style: TextStyle(
+                            color: Theme.of(context).textSelectionColor,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text(
-                      'Popular Products',
-                      style:
-                      TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
-                    ),
-                    Spacer(),
-                    FlatButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushNamed(Feeds.routeName, arguments: 'popular');
-                      },
-                      child: Text(
-                        'View all...',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 15,
-                            color: Colors.red),
                       ),
                     )
                   ],
                 ),
-              ),
-              Container(
-                width: double.infinity,
-                height: 285,
-                margin: EdgeInsets.symmetric(horizontal: 3),
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: popularItems.length,
-                    itemBuilder: (BuildContext ctx, int index) {
-                      return ChangeNotifierProvider.value(
-                        value: popularItems[index],
-                        child: PopularProducts(
-                          // imageUrl: popularItems[index].imageUrl,
-                          // title: popularItems[index].title,
-                          // description: popularItems[index].description,
-                          // price: popularItems[index].price,
-                        ),
-                      );
-                    }),
-              )
-            ],
+                Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Title",
+                       // productsAttributes.title,
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                      Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            flex: 5,
+                            child: Text("description"
+,                           //   productsAttributes.description,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey[800],
+                              ),
+                            ),
+                          ),
+                          Spacer(),
+                          Expanded(
+                            flex: 1,
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: (){},
+                                    //cartProvider.getCartItems.containsKey(
+                                //                                   productsAttributes.id,
+                                //                                 )
+                                //                                     ? () {}
+                                //                                     : () {
+                                //                                   cartProvider.addProductToCart(
+                                //                                       productsAttributes.id,
+                                //                                       productsAttributes.price,
+                                //                                       productsAttributes.title,
+                                //                                       productsAttributes.imageUrl);
+                                //                                 },
+                                borderRadius: BorderRadius.circular(30.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    MaterialCommunityIcons.check_all,
+                                    // cartProvider.getCartItems.containsKey(
+                                    //   productsAttributes.id,
+                                    // )
+                                    //     ? MaterialCommunityIcons.check_all
+                                    //     : MaterialCommunityIcons.cart_plus,
+                                    size: 25,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

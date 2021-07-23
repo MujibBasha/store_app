@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:store/consts/colors.dart';
+import 'package:store/consts/my_icons.dart';
 import 'package:store/provider/dark_theme_provider.dart';
+import 'package:store/screens/cart.dart';
+import 'package:store/screens/wishlist.dart';
 
 class UserScreen extends StatefulWidget {
   @override
@@ -114,6 +117,37 @@ class _UserScreenState extends State<UserScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: userTitle(title: "User Bag")),
+                    Divider(
+                      thickness: 1,
+                      color: Colors.grey,
+                    ),
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            splashColor: Theme.of(context).splashColor,
+            child: ListTile(
+              leading: Icon(MyAppIcons.wishlist),
+              title: Text("Wishlist"),
+          trailing: Icon(Icons.chevron_right_rounded),
+              onTap: ()=>Navigator.of(context).pushNamed(WishlistScreen.routeName,)
+            ),
+          ),
+        ),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        splashColor: Theme.of(context).splashColor,
+                        child: ListTile(
+                          leading: Icon(MyAppIcons.cart),
+                          title: Text("Card"),
+                          trailing: Icon(Icons.chevron_right_rounded),
+                          onTap:  ()=>Navigator.of(context).pushNamed(CartScreen.routeName,)
+                        ),
+                      ),
+                    ),
                     Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: userTitle(title: "User Information")),

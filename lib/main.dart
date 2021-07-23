@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store/consts/theme_data.dart';
+import 'package:store/inner_screens/product_details.dart';
 import 'package:store/models/dark_theme_preferences.dart';
 import 'package:store/provider/dark_theme_provider.dart';
 import 'package:store/screens/cart.dart';
+import 'package:store/screens/feeds.dart';
+import 'package:store/screens/wishlist.dart';
 
 import 'bottom_bar.dart';
 import 'inner_screens/brands_navigation_rail.dart';
@@ -52,9 +55,9 @@ class _MyAppState extends State<MyApp> {
             BrandNavigationRailScreen.routeName: (ctx) =>
                 BrandNavigationRailScreen(),
             CartScreen.routeName: (ctx) => CartScreen(),
-           //  Feeds.routeName: (ctx) => Feeds(),
-           //  WishlistScreen.routeName: (ctx) => WishlistScreen(),
-           //  ProductDetails.routeName: (ctx) => ProductDetails(),
+            Feeds.routeName: (ctx) => Feeds(),
+            WishlistScreen.routeName: (ctx) => WishlistScreen(),
+            ProductDetails.routeName: (ctx) => ProductDetails(),
             // CategoriesFeedsScreen.routeName: (ctx) =>
             //     CategoriesFeedsScreen(),
             // LoginScreen.routeName: (ctx) => LoginScreen(),

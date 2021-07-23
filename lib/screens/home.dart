@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:backdrop/backdrop.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:store/consts/colors.dart';
+import 'package:store/inner_screens/brands_navigation_rail.dart';
+import 'package:store/widget/backlayer.dart';
 import 'package:store/widget/category.dart';
 import 'package:store/widget/popular_products.dart';
 
@@ -16,8 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
     "https://cdn-images-1.medium.com/max/2000/1*wnIEgP1gNMrK5gZU7QS0-A.jpeg","assets/images/user_Image.jpg"];
 
 
-  List _brandImages=["https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg",
-    "https://cdn-images-1.medium.com/max/2000/1*wnIEgP1gNMrK5gZU7QS0-A.jpeg","assets/images/user_Image.jpg"];
+  List _brandImages=["assets/images/user_Image.jpg",
+    "assets/images/user_Image.jpg","assets/images/user_Image.jpg"];
 
 
   @override
@@ -56,9 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
           ),
-          backLayer: Center(
-            child: Text("Back Layer"),
-          ),
+          backLayer: BackLayerMenu(),
           frontLayer: SingleChildScrollView(
             child: Column(
 
@@ -119,7 +119,7 @@ showIndicator: true,
                     viewportFraction: 0.8,
                     scale: 0.9,
                     onTap: (index) {
-                   
+                      Navigator.of(context).pushNamed(BrandNavigationRailScreen.routeName, arguments: {index});
                     },
                     itemBuilder: (BuildContext ctx, int index) {
                       return ClipRRect(
@@ -170,7 +170,7 @@ showIndicator: true,
                       FlatButton(
                         onPressed: () {
                           // Navigator.of(context)
-                          //     .pushNamed(Feeds.routeName, arguments: 'popular');
+                          //     .pushNamed(BrandNavigationRailScreen.routeName, arguments: 'popular');
                         },
                         child: Text(
                           'View all...',

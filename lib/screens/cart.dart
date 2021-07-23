@@ -6,6 +6,7 @@ import 'package:store/widget/cart_empty.dart';
 import 'package:store/widget/cart_full.dart';
 
 class CartScreen extends StatelessWidget {
+  static const routeName = '/CartScreen';
   @override
   Widget build(BuildContext context) {
     List products=[1];

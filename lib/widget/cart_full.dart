@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:store/consts/colors.dart';
+import 'package:store/models/cart_attr.dart';
 import 'package:store/provider/dark_theme_provider.dart';
 
 class CartFull extends StatefulWidget {
@@ -15,6 +16,9 @@ class _CartFullState extends State<CartFull> {
   @override
   Widget build(BuildContext context) {
     final themeChange=Provider.of<DarkThemeProvider>(context);
+
+    final crtData=Provider.of<CartAttr>(context);
+    double subTotal= crtData.price * crtData.quantity;
     return Container(
         height:140,
       margin: const EdgeInsets.all(10.0),
@@ -30,8 +34,8 @@ class _CartFullState extends State<CartFull> {
             width: 130,
             decoration: BoxDecoration(
               image:DecorationImage(
-                image:  AssetImage("assets/images/user_Image.jpg"),
-                fit: BoxFit.fill,
+                image:  NetworkImage(crtData.imageUrl),
+                fit: BoxFit.contain,
               )
             ),
           ),
@@ -45,7 +49,7 @@ class _CartFullState extends State<CartFull> {
                     mainAxisAlignment:MainAxisAlignment.spaceBetween,
                     children:[
                       Flexible(
-                        child: Text("title ",
+                        child: Text(crtData.title,
                         style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15),
                           maxLines:1,
                           overflow: TextOverflow.ellipsis,
@@ -72,7 +76,7 @@ class _CartFullState extends State<CartFull> {
                     children: [
                       Text("Price:"),
                       SizedBox(width: 5,),
-                      Text("450\$",
+                      Text("${crtData.price}\$",
                       style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
                     ],
                   ),
@@ -80,7 +84,7 @@ class _CartFullState extends State<CartFull> {
                     children: [
                       Text("Sub Total:"),
                       SizedBox(width: 5,),
-                      Text("450\$",
+                      Text("$subTotal\$",
                         style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color:themeChange.darkTheme?Colors.brown.shade900:Theme.of(context).accentColor ),),
                     ],
                   ),
@@ -124,7 +128,7 @@ class _CartFullState extends State<CartFull> {
                           ),
                           width: MediaQuery.of(context).size.width*0.12,
                           padding: const EdgeInsets.all(8.0),
-                          child: Text("12",textAlign: TextAlign.center,),
+                          child: Text(crtData.quantity.toString(),textAlign: TextAlign.center,),
 
                         )
 

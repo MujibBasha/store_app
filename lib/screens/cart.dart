@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
 import 'package:store/consts/colors.dart';
 import 'package:store/consts/my_icons.dart';
+import 'package:store/provider/cart_provider.dart';
 import 'package:store/widget/cart_empty.dart';
 import 'package:store/widget/cart_full.dart';
 
@@ -9,10 +11,10 @@ class CartScreen extends StatelessWidget {
   static const routeName = '/CartScreen';
   @override
   Widget build(BuildContext context) {
-    List products=[1];
-    return products.isEmpty?Scaffold(
-        body: CartEmpty()):Scaffold(
+    final cartProvider=Provider.of<CartProvider>(context);
 
+    return cartProvider.getCardItems.isEmpty?Scaffold(
+        body: CartEmpty()):Scaffold(
       appBar: AppBar(
    //TODO
         title:Text("Cart Item Count"),
@@ -22,9 +24,11 @@ class CartScreen extends StatelessWidget {
         bottomSheet: checkoutSection(context),
         body: Container(
           margin: EdgeInsets.only(bottom: 60),
-          child: ListView.builder(itemCount: 5,
+          child: ListView.builder(itemCount: cartProvider.getCardItems.values.toList().length,
               itemBuilder: (context,index){
-            return CartFull();
+            return ChangeNotifierProvider.value(
+                value: cartProvider.getCardItems.values.toList()[index],
+                child: CartFull());
               }
           ),
         ));

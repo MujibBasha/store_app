@@ -4,6 +4,7 @@ import 'package:store/consts/theme_data.dart';
 import 'package:store/inner_screens/category_feeds.dart';
 import 'package:store/inner_screens/product_details.dart';
 import 'package:store/models/dark_theme_preferences.dart';
+import 'package:store/provider/cart_provider.dart';
 import 'package:store/provider/dark_theme_provider.dart';
 import 'package:store/provider/products.dart';
 import 'package:store/screens/cart.dart';
@@ -45,6 +46,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (_)=>Products(),
+        ),
+        ChangeNotifierProvider(
+          create: (_)=>CartProvider(),
         ),
       ],
       child: Consumer<DarkThemeProvider>(

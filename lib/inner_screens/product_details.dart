@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:store/consts/colors.dart';
 import 'package:store/consts/my_icons.dart';
+import 'package:store/provider/cart_provider.dart';
 // import 'package:store/provider/cart_provider.dart';
  import 'package:store/provider/dark_theme_provider.dart';
 import 'package:store/provider/products.dart';
@@ -32,7 +33,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
 
     final productId = ModalRoute.of(context).settings.arguments as String;
-    // final cartProvider = Provider.of<CartProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
     //
     // final favsProvider = Provider.of<FavsProvider>(context);
     // print('productId $productId');
@@ -344,7 +345,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       shape: RoundedRectangleBorder(side: BorderSide.none),
                       color: Colors.redAccent.shade400,
-                      onPressed:() {},
+                      onPressed:() {
+                        cartProvider.addProductToCart(
+                            productId,
+                            prodAttr.price,
+                            prodAttr.title,
+                            prodAttr.imageUrl);
+                      },
                           // cartProvider.getCartItems.containsKey(productId)
                           //     ? () {}
                           //     : () {

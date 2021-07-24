@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-class CartAttr {
+class CartAttr with ChangeNotifier {
   final String id;
   final String title;
   final int quantity;

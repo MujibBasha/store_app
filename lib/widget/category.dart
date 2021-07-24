@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:store/inner_screens/category_feeds.dart';
 
 class CategoryWidget extends StatefulWidget {
   CategoryWidget({Key key, this.index}) : super(key: key);
@@ -17,7 +17,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
     },
     {
       'categoryName': 'Clothes',
-      'categoryImagesPath': 'assets/images/user_Image.jpg',
+      'categoryImagesPath': 'assets/images/Dell.jpg',
     },
     {
       'categoryName': 'Shoes',
@@ -25,12 +25,12 @@ class _CategoryWidgetState extends State<CategoryWidget> {
     },
     {
       'categoryName': 'Beauty&Health',
-      'categoryImagesPath': 'assets/images/user_Image.jpg',
+      'categoryImagesPath': 'assets/images/carousel1.png',
     },
-    // {
-    //   'categoryName': 'Laptops',
-    //   'categoryImagesPath': 'assets/images/user_Image.jpg',
-    // },
+    {
+      'categoryName': 'Laptops',
+      'categoryImagesPath': 'assets/images/carousel2.jpeg',
+    },
     // {
     //   'categoryName': 'Furniture',
     //   'categoryImagesPath': 'assets/images/user_Image.jpg',
@@ -46,14 +46,16 @@ class _CategoryWidgetState extends State<CategoryWidget> {
     return Stack(
       children: [
         InkWell(
-          onTap: (){
-
+          onTap: () {
+            Navigator.pushNamed(context, CategoriesFeedsScreen.routeName,
+                arguments: "${categories[widget.index]["categoryName"]}");
           },
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
-                  image: AssetImage(categories[widget.index]['categoryImagesPath']),
+                  image: AssetImage(
+                      categories[widget.index]['categoryImagesPath']),
                   fit: BoxFit.cover),
             ),
             margin: EdgeInsets.symmetric(horizontal: 10),
@@ -61,7 +63,6 @@ class _CategoryWidgetState extends State<CategoryWidget> {
             height: 150,
           ),
         ),
-
         Positioned(
           bottom: 0,
           left: 10,
@@ -79,7 +80,6 @@ class _CategoryWidgetState extends State<CategoryWidget> {
             ),
           ),
         ),
-
       ],
     );
   }

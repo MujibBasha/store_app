@@ -5,17 +5,21 @@ import 'package:store/models/product.dart';
 import 'package:store/provider/products.dart';
 import 'package:store/widget/feeds_products.dart';
 
-class Feeds extends StatefulWidget {
-  static const routeName = '/Feeds';
+class CategoriesFeedsScreen extends StatefulWidget {
+  static const routeName = '/CategoriesFeedsScreen';
   @override
-  _FeedsState createState() => _FeedsState();
+  _CategoriesFeedsScreenState createState() => _CategoriesFeedsScreenState();
 }
 
-class _FeedsState extends State<Feeds> {
+class _CategoriesFeedsScreenState extends State<CategoriesFeedsScreen> {
   @override
   Widget build(BuildContext context) {
     final productsProvider = Provider.of<Products>(context);
-    List<Product> _productsList = productsProvider.products;
+
+    final _categoryName = ModalRoute.of(context).settings.arguments as String;
+
+    List<Product> _productsList =
+        productsProvider.findByCategory(categoryName: _categoryName);
     return Scaffold(
         body: StaggeredGridView.countBuilder(
       crossAxisCount: 6,
@@ -34,7 +38,7 @@ class _FeedsState extends State<Feeds> {
         //       crossAxisSpacing:8 ,
         //       mainAxisSpacing: 8,
         //       childAspectRatio: 240/290,
-        //       children: List.generate(10, (index) => FeedsProducts()),
+        //       children: List.generate(10, (index) => CategoriesFeedsScreenProducts()),
         // )
         );
   }

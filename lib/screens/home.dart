@@ -1,6 +1,6 @@
+import 'package:backdrop/backdrop.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
-import 'package:backdrop/backdrop.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:store/consts/colors.dart';
 import 'package:store/inner_screens/brands_navigation_rail.dart';
@@ -14,13 +14,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List _carouselImage=["https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg",
-    "https://cdn-images-1.medium.com/max/2000/1*wnIEgP1gNMrK5gZU7QS0-A.jpeg","assets/images/user_Image.jpg"];
+  List _carouselImage = [
+    "https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg",
+    "https://cdn-images-1.medium.com/max/2000/1*wnIEgP1gNMrK5gZU7QS0-A.jpeg",
+    "assets/images/user_Image.jpg"
+  ];
 
-
-  List _brandImages=["assets/images/user_Image.jpg",
-    "assets/images/user_Image.jpg","assets/images/user_Image.jpg"];
-
+  List _brandImages = [
+    "assets/images/user_Image.jpg",
+    "assets/images/user_Image.jpg",
+    "assets/images/user_Image.jpg"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
           frontLayerBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
           headerHeight: MediaQuery.of(context).size.height * 0.25,
           appBar: BackdropAppBar(
-            flexibleSpace: Container(decoration: BoxDecoration(gradient:LinearGradient(
-              colors: [
-
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
                 ColorsConsts.starterColor,
                 ColorsConsts.endColor,
-
-              ]
-            )),),
+              ])),
+            ),
             title: Text("Home"),
             leading: BackdropToggleButton(
               icon: AnimatedIcons.home_menu,
@@ -61,7 +64,6 @@ class _HomeScreenState extends State<HomeScreen> {
           backLayer: BackLayerMenu(),
           frontLayer: SingleChildScrollView(
             child: Column(
-
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
@@ -73,43 +75,40 @@ class _HomeScreenState extends State<HomeScreen> {
                         NetworkImage(_carouselImage[1]),
                         ExactAssetImage(_carouselImage[2]),
                       ],
-                      boxFit : BoxFit.fill,
+                      boxFit: BoxFit.fill,
                       dotIncreasedColor: Colors.blue,
                       autoplay: true,
                       dotSize: 5.0,
                       dotSpacing: 15.0,
-showIndicator: true,
+                      showIndicator: true,
                       // dotColor: Colors.lightGreenAccent,
                       indicatorBgPadding: 7.0,
                       dotBgColor: Colors.black.withOpacity(0.2),
                       borderRadius: true,
-                    )
+                    )),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Popular Brands',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 20),
+                      ),
+                      Spacer(),
+                      FlatButton(
+                        onPressed: () {},
+                        child: Text(
+                          'View all...',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 15,
+                              color: Colors.red),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-                    Padding(
-                    padding: const EdgeInsets.all(8.0),
-    child: Row(
-    children: [
-    Text(
-    'Popular Brands',
-    style:
-    TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
-    ),
-    Spacer(),
-    FlatButton(
-    onPressed: () {
-
-    },
-    child: Text(
-    'View all...',
-    style: TextStyle(
-    fontWeight: FontWeight.w800,
-    fontSize: 15,
-    color: Colors.red),
-    ),
-    )
-    ],
-    ),
-    ),
                 Container(
                   height: 210,
                   width: MediaQuery.of(context).size.width * 0.95,
@@ -119,7 +118,9 @@ showIndicator: true,
                     viewportFraction: 0.8,
                     scale: 0.9,
                     onTap: (index) {
-                      Navigator.of(context).pushNamed(BrandNavigationRailScreen.routeName, arguments: {index});
+                      Navigator.of(context).pushNamed(
+                          BrandNavigationRailScreen.routeName,
+                          arguments: {index});
                     },
                     itemBuilder: (BuildContext ctx, int index) {
                       return ClipRRect(
@@ -135,7 +136,6 @@ showIndicator: true,
                     },
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -147,7 +147,7 @@ showIndicator: true,
                   width: double.infinity,
                   height: 180,
                   child: ListView.builder(
-                    itemCount: 4,
+                    itemCount: 5,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext ctx, int index) {
                       return CategoryWidget(
@@ -156,15 +156,14 @@ showIndicator: true,
                     },
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
                       Text(
                         'Popular Products',
-                        style:
-                        TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 20),
                       ),
                       Spacer(),
                       FlatButton(
@@ -188,16 +187,16 @@ showIndicator: true,
                   height: 285,
                   margin: EdgeInsets.symmetric(horizontal: 3),
                   child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
+                      physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      itemCount: 3,//popularItems.length,
+                      itemCount: 3, //popularItems.length,
                       itemBuilder: (BuildContext ctx, int index) {
                         return PopularProducts(
-                          // imageUrl: popularItems[index].imageUrl,
-                          // title: popularItems[index].title,
-                          // description: popularItems[index].description,
-                          // price: popularItems[index].price,
-                        );
+                            // imageUrl: popularItems[index].imageUrl,
+                            // title: popularItems[index].title,
+                            // description: popularItems[index].description,
+                            // price: popularItems[index].price,
+                            );
 
                         //   ChangeNotifierProvider.value(
                         //   value: popularItems[index],
@@ -210,10 +209,9 @@ showIndicator: true,
                         // );
                       }),
                 ),
-
-                SizedBox(height: 20,),
-
-
+                SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),

@@ -43,7 +43,7 @@ class _FeedProductsState extends State<FeedProducts> {
                     ),
                     child: Image.network(
                       productsAttributes.imageUrl,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.contain,
                     ),
                   )),
                   Positioned(

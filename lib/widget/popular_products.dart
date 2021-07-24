@@ -5,19 +5,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:store/inner_screens/product_details.dart';
+import 'package:store/models/product.dart';
 
 class PopularProducts extends StatelessWidget {
-  // final String imageUrl;
-  // final String title;
-  // final String description;
-  // final double price;
 
-  // const PopularProducts(
-  //     {Key key, this.imageUrl, this.title, this.description, this.price})
-  //     : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // final productsAttributes = Provider.of<Product>(context);
+    final productsAttributes = Provider.of<Product>(context);
     // final cartProvider = Provider.of<CartProvider>(context);
     // final favsProvider = Provider.of<FavsProvider>(context);
     return Padding(
@@ -42,8 +37,7 @@ class PopularProducts extends StatelessWidget {
               ),
               bottomRight: Radius.circular(10.0),
             ),
-            onTap: (){},
-            //() => Navigator.pushNamed(context, ProductDetails.routeName,
+            onTap: () => Navigator.pushNamed(context, ProductDetails.routeName,arguments: productsAttributes.id),
             //                 arguments: productsAttributes.id)
             child: Column(
               children: [
@@ -53,7 +47,7 @@ class PopularProducts extends StatelessWidget {
                       height: 170,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: AssetImage("assets/images/Profile.jpg"),//NetworkImage("productsAttributes.imageUrl"),
+                              image: NetworkImage(productsAttributes.imageUrl),//AssetImage(productsAttributes.imageUrl),
                               fit: BoxFit.contain),),
                     ),
                     Positioned(
@@ -82,8 +76,8 @@ class PopularProducts extends StatelessWidget {
                       child: Container(
                         padding: EdgeInsets.all(10.0),
                         color: Theme.of(context).backgroundColor,
-                        child: Text("\$",
-                         // '\$ ${productsAttributes.price}',
+                        child: Text('\$ ${productsAttributes.price}',
+
                           style: TextStyle(
                             color: Theme.of(context).textSelectionColor,
                           ),
@@ -97,8 +91,8 @@ class PopularProducts extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Title",
-                       // productsAttributes.title,
+                      Text(productsAttributes.title,
+                       //
                         maxLines: 1,
                         style: TextStyle(
                             fontSize: 18.0, fontWeight: FontWeight.bold),
@@ -108,8 +102,8 @@ class PopularProducts extends StatelessWidget {
                         children: [
                           Expanded(
                             flex: 5,
-                            child: Text("description"
-,                           //   productsAttributes.description,
+                            child: Text(productsAttributes.description,
+                  //   productsAttributes.description,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(

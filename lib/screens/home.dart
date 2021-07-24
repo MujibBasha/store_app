@@ -2,8 +2,11 @@ import 'package:backdrop/backdrop.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:provider/provider.dart';
 import 'package:store/consts/colors.dart';
 import 'package:store/inner_screens/brands_navigation_rail.dart';
+import 'package:store/provider/products.dart';
+import 'package:store/screens/feeds.dart';
 import 'package:store/widget/backlayer.dart';
 import 'package:store/widget/category.dart';
 import 'package:store/widget/popular_products.dart';
@@ -28,6 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final productsData=Provider.of<Products>(context);
+    final popularItems=productsData.popularProducts;
+
     return Scaffold(
       body: Center(
         child: BackdropScaffold(
@@ -168,8 +174,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       Spacer(),
                       FlatButton(
                         onPressed: () {
-                          // Navigator.of(context)
-                          //     .pushNamed(BrandNavigationRailScreen.routeName, arguments: 'popular');
+                          Navigator.of(context)
+                              .pushNamed(Feeds.routeName, arguments: 'popular');//BrandNavigationRailScreen
                         },
                         child: Text(
                           'View all...',
@@ -189,14 +195,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      itemCount: 3, //popularItems.length,
+                      itemCount: popularItems.length, //popularItems.length,
                       itemBuilder: (BuildContext ctx, int index) {
-                        return PopularProducts(
-                            // imageUrl: popularItems[index].imageUrl,
-                            // title: popularItems[index].title,
-                            // description: popularItems[index].description,
-                            // price: popularItems[index].price,
-                            );
+                        return ChangeNotifierProvider.value(
+                          value: popularItems[index],
+                          child: PopularProducts(
+                              // imageUrl: popularItems[index].imageUrl,
+                              // title: popularItems[index].title,
+                              // description: popularItems[index].description,
+                              // price: popularItems[index].price,
+                              ),
+                        );
 
                         //   ChangeNotifierProvider.value(
                         //   value: popularItems[index],

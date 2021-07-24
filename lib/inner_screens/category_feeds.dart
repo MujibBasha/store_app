@@ -28,7 +28,7 @@ class _CategoriesFeedsScreenState extends State<CategoriesFeedsScreen> {
           ChangeNotifierProvider.value(
               value: _productsList[index], child: FeedProducts()),
       staggeredTileBuilder: (int index) =>
-          new StaggeredTile.count(3, index.isEven ? 4 : 4.1),
+          new StaggeredTile.count(3, index.isEven ? 4.4 : 4.6),
       mainAxisSpacing: 8.0,
       crossAxisSpacing: 6.0,
     )

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:store/provider/products.dart';
 
 import 'brands_rail_widget.dart';
 
@@ -207,13 +208,14 @@ class ContentSpace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final productsData = Provider.of<Products>(context, listen: false);
-    //final productsBrand = productsData.findByBrand(brand);
-    // if (brand == 'All') {
-    //   for (int i = 0; i < productsData.products.length; i++) {
-    //     productsBrand.add(productsData.products[i]);
-    //   }
-    // }
+    final productsData = Provider.of<Products>(context, listen: false);
+    final productsBrand = productsData.findByBrand(brandName: brand);
+    if (brand == 'All') {
+      // for (int i = 0; i < productsData.products.length; i++) {
+      //   productsBrand.add(productsData.products[i]);
+      // }
+      productsBrand.addAll(productsData.products);
+    }
     // print('productsBrand ${productsBrand[0].imageUrl}');
     print('brand $brand');
     return Expanded(
@@ -223,8 +225,10 @@ class ContentSpace extends StatelessWidget {
           removeTop: true,
           context: context,
           child:  ListView.builder(
-            itemCount: 8,//productsBrand.length,
-            itemBuilder: (BuildContext context, int index) =>BrandsNavigationRail(),
+            itemCount: productsBrand.length,//productsBrand.length,
+            itemBuilder: (BuildContext context, int index) =>ChangeNotifierProvider.value(
+                value: productsBrand[index],
+                child: BrandsNavigationRail()),
             // ChangeNotifierProvider.value(
             //     value: productsBrand[index],
             //     child: BrandsNavigationRail(),

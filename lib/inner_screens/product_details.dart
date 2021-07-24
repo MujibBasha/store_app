@@ -3,6 +3,7 @@ import 'package:store/consts/colors.dart';
 import 'package:store/consts/my_icons.dart';
 // import 'package:store/provider/cart_provider.dart';
  import 'package:store/provider/dark_theme_provider.dart';
+import 'package:store/provider/products.dart';
 import 'package:store/screens/cart.dart';
 import 'package:store/screens/wishlist.dart';
 // import 'package:store/provider/favs_provider.dart';
@@ -27,14 +28,16 @@ class _ProductDetailsState extends State<ProductDetails> {
   @override
   Widget build(BuildContext context) {
      final themeState = Provider.of<DarkThemeProvider>(context);
-    // final productsData = Provider.of<Products>(context, listen: false);
-    // final productId = ModalRoute.of(context).settings.arguments as String;
+    final productsData = Provider.of<Products>(context, listen: false);
+
+
+    final productId = ModalRoute.of(context).settings.arguments as String;
     // final cartProvider = Provider.of<CartProvider>(context);
     //
     // final favsProvider = Provider.of<FavsProvider>(context);
     // print('productId $productId');
-    // final prodAttr = productsData.findById(productId);
-    // final productsList = productsData.products;
+    final prodAttr = productsData.findById(productId);
+    final productsList = productsData.products;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -42,7 +45,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             foregroundDecoration: BoxDecoration(color: Colors.black12),
             height: MediaQuery.of(context).size.height * 0.45,
             width: double.infinity,
-            child:Image.asset("assets/images/user_Image.jpg")
+            child:Image.network(prodAttr.imageUrl,)
             // Image.network(
             //   prodAttr.imageUrl,
             // ),
@@ -106,8 +109,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                           children: [
                             Container(
                               width: MediaQuery.of(context).size.width * 0.9,
-                              child: Text("title",
-                               // prodAttr.title,
+                              child: Text(prodAttr.title,
+
                                 maxLines: 2,
                                 style: TextStyle(
                                    //color: Theme.of(context).textSelectionColor,
@@ -119,8 +122,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             SizedBox(
                               height: 8,
                             ),
-                            Text( 'US \$ 12',
-                             // 'US \$ ${prodAttr.price}',
+                            Text( 'US \$ ${prodAttr.price}',
                               style: TextStyle(
                                   color:
                                   themeState.darkTheme
@@ -145,8 +147,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       const SizedBox(height: 5.0),
                       Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: Text("description",
-                        //  prodAttr.description,
+                        child: Text(prodAttr.description,
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 21.0,
@@ -166,13 +167,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                           height: 1,
                         ),
                       ),
-                      _details(themeState.darkTheme, 'Brand: ',"BrandName"),// prodAttr.brand),
-                      _details(themeState.darkTheme, 'Quantity: ',"12 left"),
-                          //'${prodAttr.quantity}'),
-                      _details(themeState.darkTheme, 'Category: ',"Cat Name"),
-                         // prodAttr.productCategoryName),
-                      _details(themeState.darkTheme, 'Popularity: ','Popular'),
-                      //    prodAttr.isPopular ? 'Popular' : 'Barely known'),
+                      _details(themeState.darkTheme, 'Brand: ', prodAttr.brand,),
+                      _details(themeState.darkTheme, 'Quantity: ',
+                          '${prodAttr.quantity}'),
+                      _details(themeState.darkTheme, 'Category: ', prodAttr.productCategoryName),
+                      _details(themeState.darkTheme, 'Popularity: ', prodAttr.isPopular ? 'Popular' : 'Barely known'),
                       SizedBox(
                         height: 15,
                       ),
@@ -246,9 +245,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                        // productsList.length < 7 ? productsList.length : 7,
                     scrollDirection: Axis.horizontal,
                      itemBuilder: (BuildContext ctx, int index) {
-                      return  FeedProducts();
-                        // ChangeNotifierProvider.value(
-                        //   value: productsList[index], child: FeedProducts());
+                      return ChangeNotifierProvider.value(
+                            value: productsList[index], child: FeedProducts());
+
                     },
                   ),
                 ),

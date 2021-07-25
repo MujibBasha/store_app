@@ -345,7 +345,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       shape: RoundedRectangleBorder(side: BorderSide.none),
                       color: Colors.redAccent.shade400,
-                      onPressed:() {
+                      onPressed:cartProvider.getCartItems.containsKey(productId)? (){}:() {
                         cartProvider.addProductToCart(
                             productId,
                             prodAttr.price,
@@ -361,10 +361,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                           //             prodAttr.title,
                           //             prodAttr.imageUrl);
                           //       },
-                      child: Text('Add to Cart',
-                        // cartProvider.getCartItems.containsKey(productId)
-                        //     ? 'In cart'
-                        //     : 'Add to Cart'.toUpperCase(),
+                      child: Text(
+                        cartProvider.getCartItems.containsKey(productId)
+                            ? 'In cart'
+                            : 'Add to Cart'.toUpperCase(),
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),

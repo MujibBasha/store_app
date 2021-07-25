@@ -7,13 +7,14 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:store/inner_screens/product_details.dart';
 import 'package:store/models/product.dart';
+import 'package:store/provider/cart_provider.dart';
 
 class PopularProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     final productsAttributes = Provider.of<Product>(context);
-    // final cartProvider = Provider.of<CartProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
     // final favsProvider = Provider.of<FavsProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -119,28 +120,28 @@ class PopularProducts extends StatelessWidget {
                             child: Material(
                               color: Colors.transparent,
                               child: InkWell(
-                                onTap: (){},
-                                    //cartProvider.getCartItems.containsKey(
-                                //                                   productsAttributes.id,
-                                //                                 )
-                                //                                     ? () {}
-                                //                                     : () {
-                                //                                   cartProvider.addProductToCart(
-                                //                                       productsAttributes.id,
-                                //                                       productsAttributes.price,
-                                //                                       productsAttributes.title,
-                                //                                       productsAttributes.imageUrl);
-                                //                                 },
+                                onTap:
+                                    cartProvider.getCartItems.containsKey(
+                                                                  productsAttributes.id,
+                                                                )
+                                                                    ? () {}
+                                                                    : () {
+                                                                  cartProvider.addProductToCart(
+                                                                      productsAttributes.id,
+                                                                      productsAttributes.price,
+                                                                      productsAttributes.title,
+                                                                      productsAttributes.imageUrl);
+                                                                },
                                 borderRadius: BorderRadius.circular(30.0),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Icon(
-                                    MaterialCommunityIcons.check_all,
-                                    // cartProvider.getCartItems.containsKey(
-                                    //   productsAttributes.id,
-                                    // )
-                                    //     ? MaterialCommunityIcons.check_all
-                                    //     : MaterialCommunityIcons.cart_plus,
+
+                                    cartProvider.getCartItems.containsKey(
+                                      productsAttributes.id,
+                                    )
+                                        ? MaterialCommunityIcons.check_all
+                                        : MaterialCommunityIcons.cart_plus,
                                     size: 25,
                                     color: Colors.black,
                                   ),

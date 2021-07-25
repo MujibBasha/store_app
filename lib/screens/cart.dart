@@ -7,101 +7,136 @@ import 'package:store/provider/cart_provider.dart';
 import 'package:store/widget/cart_empty.dart';
 import 'package:store/widget/cart_full.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   static const routeName = '/CartScreen';
+
   @override
-  Widget build(BuildContext context) {
-    final cartProvider=Provider.of<CartProvider>(context);
+  _CartScreenState createState() => _CartScreenState();
+}
 
-    return cartProvider.getCardItems.isEmpty?Scaffold(
-        body: CartEmpty()):Scaffold(
-      appBar: AppBar(
-   //TODO
-        title:Text("Cart Item Count"),
-        actions: [IconButton(onPressed: (){}, icon: Icon(MyAppIcons.trash))],
+class _CartScreenState extends State<CartScreen> {
+  Future<void> _showDialog(String title,String subTitle,Function fct) async {
+    showDialog(context: context, builder: (BuildContext  ctx){
+      return AlertDialog(
+        title: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right:6.0),
+              child: Image.network("src",height: 20,width: 20,),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(title),
+            )
+          ],
 
-      ),
-        bottomSheet: checkoutSection(context),
-        body: Container(
-          margin: EdgeInsets.only(bottom: 60),
-          child: ListView.builder(itemCount: cartProvider.getCardItems.values.toList().length,
-              itemBuilder: (context,index){
-            return ChangeNotifierProvider.value(
-                value: cartProvider.getCardItems.values.toList()[index],
-                child: CartFull());
-              }
-          ),
-        ));
+        ),
+        content: Text(subTitle),
+        actions: [
+
+          TextButton(onPressed: ()=>Navigator.pop(context), child: Text("Cancel")),
+          TextButton(onPressed: (){
+            fct();
+            Navigator.pop(context);
+          }, child: Text("OK")),
+        ],
+      );
+    });
   }
 
-  Widget checkoutSection(BuildContext ctx){
+  @override
+  Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+
+    return cartProvider.getCartItems.isEmpty
+        ? Scaffold(body: CartEmpty())
+        : Scaffold(
+            appBar: AppBar(
+              //TODO
+              title: Text("Cart (${cartProvider.getCartItems.length})"),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      // cartProvider.clearCart();
+
+                      _showDialog("Clear cart", "your Cart will be cleared", (){       cartProvider.clearCart();});
+                    },
+                    icon: Icon(MyAppIcons.trash))
+              ],
+            ),
+            bottomSheet: checkoutSection(context),
+            body: Container(
+              margin: EdgeInsets.only(bottom: 60),
+              child: ListView.builder(
+                  itemCount: cartProvider.getCartItems.values.toList().length,
+                  itemBuilder: (context, index) {
+                    return ChangeNotifierProvider.value(
+                        value: cartProvider.getCartItems.values.toList()[index],
+                        child: CartFull(
+                          productID:
+                              cartProvider.getCartItems.keys.toList()[index],
+                        ));
+                  }),
+            ));
+  }
+
+  Widget checkoutSection(BuildContext ctx) {
     return Container(
       decoration: BoxDecoration(
-        border:Border(top: BorderSide(width: 1,color: Colors.grey),),
+        border: Border(
+          top: BorderSide(width: 1, color: Colors.grey),
+        ),
       ),
-      child:Padding(
+      child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children:[
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Expanded(
-            flex:2,
+            flex: 2,
             child: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-
-                    colors: [
-                      ColorsConsts.gradiendLStart,
-                      ColorsConsts.gradiendLEnd,
-                    ],
-                    stops: [
-                      0.0,
-                      0.85,
-                    ]
-
-                ),
-                  borderRadius: BorderRadius.circular(30),
+                gradient: LinearGradient(colors: [
+                  ColorsConsts.gradiendLStart,
+                  ColorsConsts.gradiendLEnd,
+                ], stops: [
+                  0.0,
+                  0.85,
+                ]),
+                borderRadius: BorderRadius.circular(30),
               ),
               child: Material(
-
                 color: Colors.transparent,
-
                 child: InkWell(
                   borderRadius: BorderRadius.circular(30),
-                  onTap: (){},
+                  onTap: () {},
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("checkout",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18,
-                      fontWeight: FontWeight.w600,
-
-                      color: Theme.of(ctx).textSelectionColor
+                    child: Text(
+                      "checkout",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(ctx).textSelectionColor),
                     ),
-                    ),
-
                   ),
                 ),
               ),
             ),
           ),
-              Spacer(),
-              Text("Total: ",
-
-                style: TextStyle(fontSize: 18,
-                    fontWeight: FontWeight.w600,
-
-                    color: Theme.of(ctx).textSelectionColor
-                ),
-              ),
-              Text("Us \$197.00",
-
-                style: TextStyle(fontSize: 18,
-                    fontWeight: FontWeight.w500,
-
-                    color: Colors.blue
-                ),
-              ),
+          Spacer(),
+          Text(
+            "Total: ",
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(ctx).textSelectionColor),
+          ),
+          Text(
+            "Us \$197.00",
+            style: TextStyle(
+                fontSize: 18, fontWeight: FontWeight.w500, color: Colors.blue),
+          ),
         ]),
       ),
     );

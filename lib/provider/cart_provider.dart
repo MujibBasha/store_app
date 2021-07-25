@@ -4,7 +4,7 @@ import 'package:store/models/cart_attr.dart';
 class CartProvider with ChangeNotifier {
   Map<String, CartAttr> _cartItems = {};
 
-  Map<String, CartAttr> get getCardItems {
+  Map<String, CartAttr> get getCartItems {
     return _cartItems;
   }
 
@@ -38,4 +38,30 @@ class CartProvider with ChangeNotifier {
     }
     notifyListeners();
   }
-}
+
+  void reduceItemByOne(
+      String productId, double price, String title, String imageUrl) {
+    if (_cartItems.containsKey(productId)) {
+      _cartItems.update(
+          productId,
+              (exitingCardItem) =>
+              CartAttr(
+                  id: exitingCardItem.id,
+                  title: exitingCardItem.title,
+                  quantity: exitingCardItem.quantity - 1,
+                  price: exitingCardItem.price,
+                  imageUrl: exitingCardItem.imageUrl));
+    }
+    notifyListeners();
+  }
+
+  void removeItem(String productTD){
+    _cartItems.remove(productTD);
+    notifyListeners();
+  }
+
+  void clearCart(){
+    _cartItems.clear();
+    notifyListeners();
+  }
+  }

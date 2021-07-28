@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:store/consts/colors.dart';
 import 'package:store/consts/my_icons.dart';
 import 'package:store/provider/cart_provider.dart';
+import 'package:store/services/global_method.dart';
 import 'package:store/widget/cart_empty.dart';
 import 'package:store/widget/cart_full.dart';
 
@@ -15,34 +16,6 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  Future<void> _showDialog(String title,String subTitle,Function fct) async {
-    showDialog(context: context, builder: (BuildContext  ctx){
-      return AlertDialog(
-        title: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right:6.0),
-              child: Image.network("src",height: 20,width: 20,),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(title),
-            )
-          ],
-
-        ),
-        content: Text(subTitle),
-        actions: [
-
-          TextButton(onPressed: ()=>Navigator.pop(context), child: Text("Cancel")),
-          TextButton(onPressed: (){
-            fct();
-            Navigator.pop(context);
-          }, child: Text("OK")),
-        ],
-      );
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +32,12 @@ class _CartScreenState extends State<CartScreen> {
                     onPressed: () {
                       // cartProvider.clearCart();
 
-                      _showDialog("Clear cart", "your Cart will be cleared", (){       cartProvider.clearCart();});
+                      GlobalMethods.showDialogg("Clear cart", "your Cart will be cleared", ()=> cartProvider.clearCart(),context);
                     },
                     icon: Icon(MyAppIcons.trash))
               ],
             ),
-            bottomSheet: checkoutSection(context),
+            bottomSheet: checkoutSection(context,cartProvider.totalAmount),
             body: Container(
               margin: EdgeInsets.only(bottom: 60),
               child: ListView.builder(
@@ -80,7 +53,7 @@ class _CartScreenState extends State<CartScreen> {
             ));
   }
 
-  Widget checkoutSection(BuildContext ctx) {
+  Widget checkoutSection(BuildContext ctx,double subTitle) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -133,7 +106,7 @@ class _CartScreenState extends State<CartScreen> {
                 color: Theme.of(ctx).textSelectionColor),
           ),
           Text(
-            "Us \$197.00",
+            "US \$${subTitle.toStringAsFixed(3)}",
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.w500, color: Colors.blue),
           ),

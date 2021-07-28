@@ -6,6 +6,7 @@ import 'package:store/inner_screens/product_details.dart';
 import 'package:store/models/cart_attr.dart';
 import 'package:store/provider/cart_provider.dart';
 import 'package:store/provider/dark_theme_provider.dart';
+import 'package:store/services/global_method.dart';
 
 class CartFull extends StatefulWidget {
 
@@ -19,35 +20,7 @@ final String productID;
 
 class _CartFullState extends State<CartFull> {
   
-  Future<void> _showDialog(String title,String subTitle,Function fct) async {
-    showDialog(context: context, builder: (BuildContext  ctx){
-      return AlertDialog(
-        title: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right:6.0),
-              child: Image.network("src",height: 20,width: 20,),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(title),
-            )
-          ],
 
-        ),
-        content: Text(subTitle),
-        actions: [
-
-          TextButton(onPressed: ()=>Navigator.pop(context), child: Text("Cancel")),
-          TextButton(onPressed: (){
-            fct();
-            Navigator.pop(context);
-          }, child: Text("OK")),
-        ],
-      );
-    });
-  }
-  
   @override
   Widget build(BuildContext context) {
     final themeChange=Provider.of<DarkThemeProvider>(context);
@@ -99,7 +72,7 @@ class _CartFullState extends State<CartFull> {
                            borderRadius: BorderRadius.only(topRight: Radius.circular(16),),
                            onTap: (){
 
-                             _showDialog("Remove item", "Product will be removed from cart", (){  cartProvider.removeItem(widget.productID);});
+                             GlobalMethods.showDialogg("Remove item", "Product will be removed from cart", (){  cartProvider.removeItem(widget.productID);},context);
                            },
                            child:Container(
                                height:40,
@@ -141,9 +114,7 @@ class _CartFullState extends State<CartFull> {
                             onTap: cartAttr.quantity<2? null: () {
                               cartProvider.reduceItemByOne(
                                   widget.productID,
-                                  cartAttr.price,
-                                  cartAttr.title,
-                                  cartAttr.imageUrl);
+                                 );
                             },
                             child:Container(
 

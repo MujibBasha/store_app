@@ -612,4 +612,12 @@ class Products extends ChangeNotifier {
         .toList();
     return _dsd;
   }
+
+  List<Product> searchQuery({String searchText}) {
+    List _dsd = _product
+        .where((element) =>
+        element.title.toLowerCase().contains(searchText.toLowerCase()))
+        .toList();
+    return _dsd;
+  }
 }

@@ -6,6 +6,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store/consts/colors.dart';
+import 'package:store/models/favs_attr.dart';
+import 'package:store/provider/favs_provider.dart';
+import 'package:store/services/global_method.dart';
 
 class WishlistFull extends StatefulWidget {
   final String productId;
@@ -18,7 +21,7 @@ class WishlistFull extends StatefulWidget {
 class _WishlistFullState extends State<WishlistFull> {
   @override
   Widget build(BuildContext context) {
-   // final favsAttr = Provider.of<FavsAttr>(context);
+    final favsAttr = Provider.of<FavsAttr>(context);
     return Stack(
       children: <Widget>[
         Container(
@@ -36,7 +39,7 @@ class _WishlistFullState extends State<WishlistFull> {
                   children: <Widget>[
                     Container(
                       height: 80,
-                      child: Image.asset("assets/images/user_Image.jpg"),
+                      child: Image.network(favsAttr.imageUrl),
                     ),
                     SizedBox(
                       width: 10.0,
@@ -45,16 +48,16 @@ class _WishlistFullState extends State<WishlistFull> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text("title",
-                            //favsAttr.title,
+                          Text(
+                            favsAttr.title,
                             style: TextStyle(
                                 fontSize: 16.0, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
                             height: 20.0,
                           ),
-                          Text("\$ 12",
-                          //  "\$ ${favsAttr.price}",
+                          Text(
+                           "\$ ${favsAttr.price}",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18.0),
                           ),
@@ -73,7 +76,7 @@ class _WishlistFullState extends State<WishlistFull> {
   }
 
   Widget positionedRemove(String productId) {
-    // final favsProvider = Provider.of<FavsProvider>(context);
+    final favsProvider = Provider.of<FavsProvider>(context);
     // GlobalMethods globalMethods = GlobalMethods();
     return Positioned(
       top: 20,
@@ -91,11 +94,11 @@ class _WishlistFullState extends State<WishlistFull> {
               color: Colors.white,
             ),
             onPressed: () => {
-                  // globalMethods.showDialogg(
-                  //     'Remove wish!',
-                  //     'This product will be removed from your wishlist!',
-                  //     () => favsProvider.removeItem(productId),
-                  //     context),
+                  GlobalMethods.showDialogg(
+                      'Remove wish!',
+                      'This product will be removed from your wishlist!',
+                      () => favsProvider.removeItem(productId),
+                      context),
                 }),
       ),
     );

@@ -30,7 +30,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
     _pages = [
       {'page': HomeScreen(), 'title': 'Home Screen'},
       {'page': Feeds(), 'title': 'Feed screen'},
-      {'page': SearchScreen(), 'title': 'Search Screen'},
+      {'page': Search(), 'title': 'Search Screen'},
       {'page': CartScreen(), 'title': 'CartScreen'},
       {'page': UserScreen(), 'title': 'UserScreen'}
     ];

@@ -6,9 +6,13 @@ import 'package:store/inner_screens/product_details.dart';
 import 'package:store/models/dark_theme_preferences.dart';
 import 'package:store/provider/cart_provider.dart';
 import 'package:store/provider/dark_theme_provider.dart';
+import 'package:store/provider/favs_provider.dart';
 import 'package:store/provider/products.dart';
+import 'package:store/screens/auth/login.dart';
+import 'package:store/screens/auth/sign_up.dart';
 import 'package:store/screens/cart.dart';
 import 'package:store/screens/feeds.dart';
+import 'package:store/screens/landing_page.dart';
 import 'package:store/screens/wishlist.dart';
 
 import 'bottom_bar.dart';
@@ -50,6 +54,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (_)=>CartProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_)=>FavsProvider(),
+        ),
       ],
       child: Consumer<DarkThemeProvider>(
 
@@ -58,7 +65,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           title: 'Bottom Navigation bar',
           theme: Styles.themeData(context: context,isDarkTheme:data.darkTheme),
-          home: BottomBarScreen(),
+          home: LandingPage(),
           routes: {
             //   '/': (ctx) => LandingPage(),
             BrandNavigationRailScreen.routeName: (ctx) =>
@@ -69,8 +76,8 @@ class _MyAppState extends State<MyApp> {
             ProductDetails.routeName: (ctx) => ProductDetails(),
             CategoriesFeedsScreen.routeName: (ctx) =>
                 CategoriesFeedsScreen(),
-            // LoginScreen.routeName: (ctx) => LoginScreen(),
-            // SignUpScreen.routeName: (ctx) => SignUpScreen(),
+            LoginScreen.routeName: (ctx) => LoginScreen(),
+            SignUpScreen.routeName: (ctx) => SignUpScreen(),
             BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
             // UploadProductForm.routeName: (ctx) => UploadProductForm(),
             // ForgetPassword.routeName: (ctx) => ForgetPassword(),

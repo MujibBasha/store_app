@@ -1,9 +1,12 @@
 import 'dart:ui';
 import 'package:store/consts/colors.dart';
 import 'package:store/consts/my_icons.dart';
+import 'package:store/models/cart_attr.dart';
+import 'package:store/models/favs_attr.dart';
 import 'package:store/provider/cart_provider.dart';
 // import 'package:store/provider/cart_provider.dart';
  import 'package:store/provider/dark_theme_provider.dart';
+import 'package:store/provider/favs_provider.dart';
 import 'package:store/provider/products.dart';
 import 'package:store/screens/cart.dart';
 import 'package:store/screens/wishlist.dart';
@@ -34,8 +37,9 @@ class _ProductDetailsState extends State<ProductDetails> {
 
     final productId = ModalRoute.of(context).settings.arguments as String;
     final cartProvider = Provider.of<CartProvider>(context);
-    //
-    // final favsProvider = Provider.of<FavsProvider>(context);
+
+
+    final favsProvider = Provider.of<FavsProvider>(context);
     // print('productId $productId');
     final prodAttr = productsData.findById(productId);
     final productsList = productsData.products;
@@ -269,15 +273,50 @@ class _ProductDetailsState extends State<ProductDetails> {
                       TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal),
                 ),
                 actions: <Widget>[
-                  IconButton(
-                    icon: Icon(
-                      MyAppIcons.wishlist,
-                      color: ColorsConsts.favColor,
+                  Selector<FavsProvider,Map<String, FavsAttr>>(
+                    selector: (context,data)=>data.getFavsItems,
+                  builder: (_,favs,child)=>Badge(
+                    badgeColor: ColorsConsts.cartBadgeColor,
+                    animationType: BadgeAnimationType.slide,
+                    toAnimate: true,
+                    position: BadgePosition.topEnd(top: 5, end: 7),
+                    badgeContent: Text(
+                      favs.length.toString(),
+                      style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushNamed(WishlistScreen.routeName);
-                    },
+                    child: IconButton(
+                      icon: Icon(
+                        MyAppIcons.wishlist,
+                        color: ColorsConsts.favColor,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed(WishlistScreen.routeName);
+                      },
+                    ),
+                  ),
+                  ),
+                  Selector<CartProvider,  Map<String, CartAttr>>(
+                    selector: (context,data)=>data.getCartItems,
+                    builder: (_,carts,child)=>Badge(
+                      badgeColor: ColorsConsts.cartBadgeColor,
+                      animationType: BadgeAnimationType.slide,
+                      toAnimate: true,
+                      position: BadgePosition.topEnd(top: 5, end: 7),
+                      badgeContent: Text(
+                        carts.length.toString(),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      child: IconButton(
+                        icon: Icon(
+                          MyAppIcons.cart,
+                          color: ColorsConsts.cartColor,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(CartScreen.routeName);
+                        },
+                      ),
+                    ),
                   ),
                   // Consumer<FavsProvider>(
                   //   builder: (_, favs, ch) => Badge(
@@ -302,15 +341,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   //   ),
                   // ),
 
-                  IconButton(
-                    icon: Icon(
-                      MyAppIcons.cart,
-                      color: ColorsConsts.cartColor,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(CartScreen.routeName);
-                    },
-                  ),
+
                   // Consumer<CartProvider>(
                   //   builder: (_, cart, ch) => Badge(
                   //     badgeColor: ColorsConsts.cartBadgeColor,
@@ -412,16 +443,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                       onTap: () {
                         // favsProvider.addAndRemoveFromFav(productId,
                         //     prodAttr.price, prodAttr.title, prodAttr.imageUrl);
+                        favsProvider.addAndRemoveFromFav(productId, prodAttr.price, prodAttr.title, prodAttr.imageUrl);
                       },
                       child: Center(
-                        child: Icon(MyAppIcons.wishlist,
-                          // favsProvider.getFavsItems.containsKey(productId)
-                          //     ? Icons.favorite
-                          //     : MyAppIcons.wishlist,
-                          color:ColorsConsts.white,
-                              // favsProvider.getFavsItems.containsKey(productId)
-                              //     ? Colors.red
-                              //     : ColorsConsts.white,
+                        child: Icon(
+                          favsProvider.getFavsItems.containsKey(productId)
+                              ? Icons.favorite
+                              : MyAppIcons.wishlist,
+                          color:
+                              favsProvider.getFavsItems.containsKey(productId)
+                                  ? Colors.red
+                                  : ColorsConsts.white,
                         ),
                       ),
                     ),

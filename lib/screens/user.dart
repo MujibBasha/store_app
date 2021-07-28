@@ -155,10 +155,10 @@ class _UserScreenState extends State<UserScreen> {
                       thickness: 1,
                       color: Colors.grey,
                     ),
-                    userListTile(context, "Email", "subTitle", 0),
-                    userListTile(context, "Phone number", "0927553897", 1),
-                    userListTile(context, "Shipping address", "subTitle", 2),
-                    userListTile(context, "joined date", "subTitle", 3),
+                    userListTile(context, "Email", "subTitle", 0,(){}),
+                    userListTile(context, "Phone number", "0927553897", 1,(){}),
+                    userListTile(context, "Shipping address", "subTitle", 2,(){}),
+                    userListTile(context, "joined date", "subTitle", 3,(){}),
 
                     Padding(
                         padding: const EdgeInsets.only(left: 8.0),
@@ -182,7 +182,9 @@ class _UserScreenState extends State<UserScreen> {
                         },
                       ),
                     ),
-                    userListTile(context, "Logout", "", 4),
+                    userListTile(context, "Logout", "", 4,(){
+                      Navigator.canPop(context)?Navigator.pop(context):Navigator.pop(context,false);
+                    }),
                   ],
                 ),
               )
@@ -271,7 +273,7 @@ class _UserScreenState extends State<UserScreen> {
   ];
 
   Widget userListTile(
-      BuildContext context, String title, String subTitle, int index) {
+      BuildContext context, String title, String subTitle, int index,Function onPressed) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -280,9 +282,8 @@ class _UserScreenState extends State<UserScreen> {
           leading: Icon(_userTileIcons[index]),
           title: Text(title),
           subtitle: Text(subTitle),
-          onTap: () {
-            print("2");
-          },
+          onTap: onPressed,
+          
         ),
       ),
     );

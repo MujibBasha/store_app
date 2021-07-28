@@ -40,7 +40,7 @@ class CartProvider with ChangeNotifier {
   }
 
   void reduceItemByOne(
-      String productId, double price, String title, String imageUrl) {
+      String productId,) {
     if (_cartItems.containsKey(productId)) {
       _cartItems.update(
           productId,

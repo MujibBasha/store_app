@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store/consts/colors.dart';
 import 'package:store/provider/dark_theme_provider.dart';
+import 'package:store/screens/feeds.dart';
 
 class WishlistEmpty extends StatelessWidget {
   @override
@@ -37,7 +38,7 @@ class WishlistEmpty extends StatelessWidget {
         Container(
           height: MediaQuery.of(context).size.height*0.06,
           width: MediaQuery.of(context).size.width*0.9,
-          child: RaisedButton(onPressed: (){},
+          child: RaisedButton(onPressed: ()=> Navigator.pushNamed(context,Feeds.routeName ),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16),
               side: BorderSide(color: Colors.red),
 

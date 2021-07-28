@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:store/consts/colors.dart';
 import 'package:store/services/global_method.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
@@ -30,7 +31,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   File _pickedImage;
   String url;
   final _formKey = GlobalKey<FormState>();
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   GlobalMethods _globalMethods = GlobalMethods();
   bool _isLoading = false;
   @override
@@ -49,45 +50,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
     // var formattedDate = "${dateparse.day}-${dateparse.month}-${dateparse.year}";
     if (isValid) {
       _formKey.currentState.save();
-      // try {
-      //   if (_pickedImage == null) {
-      //     _globalMethods.authErrorHandle('Please pick an image', context);
-      //   } else {
-      //     setState(() {
-      //       _isLoading = true;
-      //     });
-      //     final ref = FirebaseStorage.instance
-      //         .ref()
-      //         .child('usersImages')
-      //         .child(_fullName + '.jpg');
-      //     await ref.putFile(_pickedImage);
-      //     url = await ref.getDownloadURL();
-      //     await _auth.createUserWithEmailAndPassword(
-      //         email: _emailAddress.toLowerCase().trim(),
-      //         password: _password.trim());
-      //     final User user = _auth.currentUser;
-      //     final _uid = user.uid;
-      //     user.updateProfile(photoURL: url, displayName: _fullName);
-      //     user.reload();
-      //     await FirebaseFirestore.instance.collection('users').doc(_uid).set({
-      //       'id': _uid,
-      //       'name': _fullName,
-      //       'email': _emailAddress,
-      //       'phoneNumber': _phoneNumber,
-      //       'imageUrl': url,
-      //       'joinedAt': formattedDate,
-      //       'createdAt': Timestamp.now(),
-      //     });
-      //     Navigator.canPop(context) ? Navigator.pop(context) : null;
-      //   }
-      // } catch (error) {
-      //   _globalMethods.authErrorHandle(error.message, context);
-      //   print('error occured ${error.message}');
-      // } finally {
-      //   setState(() {
-      //     _isLoading = false;
-      //   });
-      // }
+      try {
+        if (_pickedImage == null) {
+          GlobalMethods.authErrorHandle('Please pick an image', context);
+        } else {
+          setState(() {
+            _isLoading = true;
+          });
+          // final ref = FirebaseStorage.instance
+          //     .ref()
+          //     .child('usersImages')
+          //     .child(_fullName + '.jpg');
+          // await ref.putFile(_pickedImage);
+          // url = await ref.getDownloadURL();
+          await _auth.createUserWithEmailAndPassword(
+              email: _emailAddress.toLowerCase().trim(),
+              password: _password.trim());
+          // final User user = _auth.currentUser;
+          // final _uid = user.uid;
+          // user.updateProfile(photoURL: url, displayName: _fullName);
+          // user.reload();
+          // await FirebaseFirestore.instance.collection('users').doc(_uid).set({
+          //   'id': _uid,
+          //   'name': _fullName,
+          //   'email': _emailAddress,
+          //   'phoneNumber': _phoneNumber,
+          //   'imageUrl': url,
+          //   'joinedAt': formattedDate,
+          //   'createdAt': Timestamp.now(),
+          // });
+          Navigator.canPop(context) ? Navigator.pop(context) : null;
+        }
+      } catch (error) {
+        GlobalMethods.authErrorHandle(error.message, context);
+        print('error occured ${error.message}');
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 

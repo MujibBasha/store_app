@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "770976037638",
+    "project_id": "store-ccd9e",
+    "storage_bucket": "store-ccd9e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770976037638:android:9789e2187fb8b5939ffc87",
+        "android_client_info": {
+          "package_name": "com.lightmoonstudioo.store.store"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "770976037638-1l3mca9g9oln4d6s4ie38im99e9o9grb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDap3iRMgyouc0bK8d19CSe_NQKCOxptcI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "770976037638-1l3mca9g9oln4d6s4ie38im99e9o9grb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

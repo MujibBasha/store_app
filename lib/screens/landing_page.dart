@@ -3,6 +3,7 @@ import 'package:store/consts/colors.dart';
 import 'package:store/screens/auth/login.dart';
 import 'package:store/screens/auth/sign_up.dart';
 import 'package:store/screens/bottom_bar.dart';
+import 'package:store/screens/main_screen.dart';
 // import 'package:store/screens/auth/login.dart';
 // import 'package:store/screens/auth/sign_up.dart';
 // import 'package:store/screens/bottom_bar.dart';
@@ -277,7 +278,8 @@ class _LandingPageState extends State<LandingPage>
                   : OutlineButton(
                       onPressed: () {
                      //   _loginAnonymosly();
-                        Navigator.pushNamed(context, BottomBarScreen.routeName);
+                     //    Navigator.pushNamed(context, BottomBarScreen.routeName);
+                        Navigator.pushNamed(context, MainScreens.routeName);
                       },
                       shape: StadiumBorder(),
                       highlightedBorderColor: Colors.deepPurple.shade200,

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store/consts/theme_data.dart';
@@ -13,17 +14,22 @@ import 'package:store/screens/auth/sign_up.dart';
 import 'package:store/screens/cart.dart';
 import 'package:store/screens/feeds.dart';
 import 'package:store/screens/landing_page.dart';
+import 'package:store/screens/main_screen.dart';
+import 'package:store/screens/upload_product_form.dart';
 import 'package:store/screens/wishlist.dart';
 
 import 'bottom_bar.dart';
 import 'inner_screens/brands_navigation_rail.dart';
 
 void main() {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
   runApp(MyApp());
+
 }
 
 class MyApp extends StatefulWidget {
-
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -79,7 +85,8 @@ class _MyAppState extends State<MyApp> {
             LoginScreen.routeName: (ctx) => LoginScreen(),
             SignUpScreen.routeName: (ctx) => SignUpScreen(),
             BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
-            // UploadProductForm.routeName: (ctx) => UploadProductForm(),
+            UploadProductForm.routeName: (ctx) => UploadProductForm(),
+            MainScreens.routeName: (ctx) => MainScreens(),
             // ForgetPassword.routeName: (ctx) => ForgetPassword(),
             // OrderScreen.routeName: (ctx) => OrderScreen(),
           },

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +7,7 @@ import 'package:store/consts/my_icons.dart';
 import 'package:store/provider/dark_theme_provider.dart';
 import 'package:store/screens/cart.dart';
 import 'package:store/screens/wishlist.dart';
+import 'package:store/services/global_method.dart';
 
 class UserScreen extends StatefulWidget {
   @override
@@ -15,6 +17,7 @@ class UserScreen extends StatefulWidget {
 class _UserScreenState extends State<UserScreen> {
   // bool _value = false;
   ScrollController _scrollController;
+  final _auth = FirebaseAuth.instance;
 
   var top = 0.0;
 
@@ -124,28 +127,30 @@ class _UserScreenState extends State<UserScreen> {
                       thickness: 1,
                       color: Colors.grey,
                     ),
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            splashColor: Theme.of(context).splashColor,
-            child: ListTile(
-              leading: Icon(MyAppIcons.wishlist),
-              title: Text("Wishlist"),
-          trailing: Icon(Icons.chevron_right_rounded),
-              onTap: ()=>Navigator.of(context).pushNamed(WishlistScreen.routeName,)
-            ),
-          ),
-        ),
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
                         splashColor: Theme.of(context).splashColor,
                         child: ListTile(
-                          leading: Icon(MyAppIcons.cart),
-                          title: Text("Card"),
-                          trailing: Icon(Icons.chevron_right_rounded),
-                          onTap:  ()=>Navigator.of(context).pushNamed(CartScreen.routeName,)
-                        ),
+                            leading: Icon(MyAppIcons.wishlist),
+                            title: Text("Wishlist"),
+                            trailing: Icon(Icons.chevron_right_rounded),
+                            onTap: () => Navigator.of(context).pushNamed(
+                                  WishlistScreen.routeName,
+                                )),
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        splashColor: Theme.of(context).splashColor,
+                        child: ListTile(
+                            leading: Icon(MyAppIcons.cart),
+                            title: Text("Card"),
+                            trailing: Icon(Icons.chevron_right_rounded),
+                            onTap: () => Navigator.of(context).pushNamed(
+                                  CartScreen.routeName,
+                                )),
                       ),
                     ),
                     Padding(
@@ -155,11 +160,12 @@ class _UserScreenState extends State<UserScreen> {
                       thickness: 1,
                       color: Colors.grey,
                     ),
-                    userListTile(context, "Email", "subTitle", 0,(){}),
-                    userListTile(context, "Phone number", "0927553897", 1,(){}),
-                    userListTile(context, "Shipping address", "subTitle", 2,(){}),
-                    userListTile(context, "joined date", "subTitle", 3,(){}),
-
+                    userListTile(context, "Email", "subTitle", 0, () {}),
+                    userListTile(
+                        context, "Phone number", "0927553897", 1, () {}),
+                    userListTile(
+                        context, "Shipping address", "subTitle", 2, () {}),
+                    userListTile(context, "joined date", "subTitle", 3, () {}),
                     Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: userTitle(title: "User setting")),
@@ -182,8 +188,12 @@ class _UserScreenState extends State<UserScreen> {
                         },
                       ),
                     ),
-                    userListTile(context, "Logout", "", 4,(){
-                      Navigator.canPop(context)?Navigator.pop(context):Navigator.pop(context,false);
+                    userListTile(context, "Logout", "", 4, () {
+                      // Navigator.canPop(context)?Navigator.pop(context):Navigator.pop(context,false);
+                      GlobalMethods.showDialogg(
+                          "Warning", "Do you wanna logout", () async {
+                        await _auth.signOut();
+                      }, context);
                     }),
                   ],
                 ),
@@ -272,8 +282,8 @@ class _UserScreenState extends State<UserScreen> {
     Icons.exit_to_app_rounded,
   ];
 
-  Widget userListTile(
-      BuildContext context, String title, String subTitle, int index,Function onPressed) {
+  Widget userListTile(BuildContext context, String title, String subTitle,
+      int index, Function onPressed) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -283,7 +293,6 @@ class _UserScreenState extends State<UserScreen> {
           title: Text(title),
           subtitle: Text(subTitle),
           onTap: onPressed,
-          
         ),
       ),
     );

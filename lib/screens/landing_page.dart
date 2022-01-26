@@ -1,19 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:store/consts/colors.dart';
-import 'package:store/screens/auth/login.dart';
-import 'package:store/screens/auth/sign_up.dart';
-import 'package:store/screens/bottom_bar.dart';
-import 'package:store/screens/main_screen.dart';
-// import 'package:store/screens/auth/login.dart';
-// import 'package:store/screens/auth/sign_up.dart';
-// import 'package:store/screens/bottom_bar.dart';
-import 'package:store/services/global_method.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:store/consts/colors.dart';
+import 'package:store/screens/auth/login.dart';
+import 'package:store/screens/auth/sign_up.dart';
+import 'package:store/screens/main_screen.dart';
+import 'package:store/services/global_method.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -30,8 +26,8 @@ class _LandingPageState extends State<LandingPage>
     'https://e-shopy.org/wp-content/uploads/2020/08/shop.jpeg',
     'https://e-shopy.org/wp-content/uploads/2020/08/shop.jpeg',
   ];
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
-  //GlobalMethods _globalMethods = GlobalMethods();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   bool _isLoading = false;
   @override
   void initState() {
@@ -59,56 +55,56 @@ class _LandingPageState extends State<LandingPage>
     super.dispose();
   }
 
-  // Future<void> _googleSignIn() async {
-  //   final googleSignIn = GoogleSignIn();
-  //   final googleAccount = await googleSignIn.signIn();
-  //   if (googleAccount != null) {
-  //     final googleAuth = await googleAccount.authentication;
-  //     if (googleAuth.accessToken != null && googleAuth.idToken != null) {
-  //       try {
-  //         var date = DateTime.now().toString();
-  //         var dateparse = DateTime.parse(date);
-  //         var formattedDate =
-  //             "${dateparse.day}-${dateparse.month}-${dateparse.year}";
-  //         final authResult = await _auth.signInWithCredential(
-  //             GoogleAuthProvider.credential(
-  //                 idToken: googleAuth.idToken,
-  //                 accessToken: googleAuth.accessToken));
-  //         await FirebaseFirestore.instance
-  //             .collection('users')
-  //             .doc(authResult.user.uid)
-  //             .set({
-  //           'id': authResult.user.uid,
-  //           'name': authResult.user.displayName,
-  //           'email': authResult.user.email,
-  //           'phoneNumber': authResult.user.phoneNumber,
-  //           'imageUrl': authResult.user.photoURL,
-  //           'joinedAt': formattedDate,
-  //           'createdAt': Timestamp.now(),
-  //         });
-  //       } catch (error) {
-  //         _globalMethods.authErrorHandle(error.message, context);
-  //       }
-  //     }
-  //   }
-  // }
+  Future<void> _googleSignIn() async {
+    final googleSignIn = GoogleSignIn();
+    final googleAccount = await googleSignIn.signIn();
+    if (googleAccount != null) {
+      final googleAuth = await googleAccount.authentication;
+      if (googleAuth.accessToken != null && googleAuth.idToken != null) {
+        try {
+          var date = DateTime.now().toString();
+          var dateparse = DateTime.parse(date);
+          var formattedDate =
+              "${dateparse.day}-${dateparse.month}-${dateparse.year}";
+          final authResult = await _auth.signInWithCredential(
+              GoogleAuthProvider.credential(
+                  idToken: googleAuth.idToken,
+                  accessToken: googleAuth.accessToken));
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(authResult.user.uid)
+              .set({
+            'id': authResult.user.uid,
+            'name': authResult.user.displayName,
+            'email': authResult.user.email,
+            'phoneNumber': authResult.user.phoneNumber,
+            'imageUrl': authResult.user.photoURL,
+            'joinedAt': formattedDate,
+            'createdAt': Timestamp.now(),
+          });
+        } catch (error) {
+          GlobalMethods.authErrorHandle(error.message, context);
+        }
+      }
+    }
+  }
 
-  // void _loginAnonymosly() async {
-  //   setState(() {
-  //     _isLoading = true;
-  //   });
-  //
-  //   try {
-  //     await _auth.signInAnonymously();
-  //   } catch (error) {
-  //     _globalMethods.authErrorHandle(error.message, context);
-  //     print('error occured ${error.message}');
-  //   } finally {
-  //     setState(() {
-  //       _isLoading = false;
-  //     });
-  //   }
-  // }
+  void _loginAnonymosly() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await _auth.signInAnonymously();
+    } catch (error) {
+      GlobalMethods.authErrorHandle(error.message, context);
+      print('error occured ${error.message}');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +169,7 @@ class _LandingPageState extends State<LandingPage>
                       ),
                     )),
                     onPressed: () {
-                       Navigator.pushNamed(context, LoginScreen.routeName);
+                      Navigator.pushNamed(context, LoginScreen.routeName);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -267,7 +263,7 @@ class _LandingPageState extends State<LandingPage>
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               OutlineButton(
-                onPressed:(){},// _googleSignIn,
+                onPressed: _googleSignIn,
                 shape: StadiumBorder(),
                 highlightedBorderColor: Colors.red.shade200,
                 borderSide: BorderSide(width: 2, color: Colors.red),
@@ -277,8 +273,8 @@ class _LandingPageState extends State<LandingPage>
                   ? CircularProgressIndicator()
                   : OutlineButton(
                       onPressed: () {
-                     //   _loginAnonymosly();
-                     //    Navigator.pushNamed(context, BottomBarScreen.routeName);
+                        _loginAnonymosly();
+                        //    Navigator.pushNamed(context, BottomBarScreen.routeName);
                         Navigator.pushNamed(context, MainScreens.routeName);
                       },
                       shape: StadiumBorder(),

@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:store/consts/colors.dart';
-import 'package:store/services/global_method.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:store/consts/colors.dart';
+import 'package:store/services/global_method.dart';
 import 'package:uuid/uuid.dart';
 
 class UploadProductForm extends StatefulWidget {
@@ -32,7 +32,7 @@ class _UploadProductFormState extends State<UploadProductForm> {
   String _categoryValue;
   String _brandValue;
   GlobalMethods _globalMethods = GlobalMethods();
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   File _pickedImage;
   bool _isLoading = false;
   String url;
@@ -72,51 +72,51 @@ class _UploadProductFormState extends State<UploadProductForm> {
     //   print(_productQuantity);
     //   // Use those values to send our request ...
     // }
-    // if (isValid) {
-    //   _formKey.currentState.save();
-    //   try {
-    //     if (_pickedImage == null) {
-    //       // _globalMethods.authErrorHandle('Please pick an image', context);
-    //     } else {
-    //       setState(() {
-    //         _isLoading = true;
-    //       });
-    //       final ref = FirebaseStorage.instance
-    //           .ref()
-    //           .child('productsImages')
-    //           .child(_productTitle + '.jpg');
-    //       await ref.putFile(_pickedImage);
-    //       url = await ref.getDownloadURL();
-    //
-    //       final User user = _auth.currentUser;
-    //       final _uid = user.uid;
-    //       final productId = uuid.v4();
-    //       await FirebaseFirestore.instance
-    //           .collection('products')
-    //           .doc(productId)
-    //           .set({
-    //         'productId': productId,
-    //         'productTitle': _productTitle,
-    //         'price': _productPrice,
-    //         'productImage': url,
-    //         'productCategory': _productCategory,
-    //         'productBrand': _productBrand,
-    //         'productDescription': _productDescription,
-    //         'productQuantity': _productQuantity,
-    //         'userId': _uid,
-    //         'createdAt': Timestamp.now(),
-    //       });
-    //       Navigator.canPop(context) ? Navigator.pop(context) : null;
-    //     }
-    //   } catch (error) {
-    //     _globalMethods.authErrorHandle(error.message, context);
-    //     print('error occured ${error.message}');
-    //   } finally {
-    //     setState(() {
-    //       _isLoading = false;
-    //     });
-    //   }
-    // }
+    if (isValid) {
+      _formKey.currentState.save();
+      try {
+        if (_pickedImage == null) {
+          GlobalMethods.authErrorHandle('Please pick an image', context);
+        } else {
+          setState(() {
+            _isLoading = true;
+          });
+          final ref = FirebaseStorage.instance
+              .ref()
+              .child('productsImages')
+              .child(_productTitle + '.jpg');
+          await ref.putFile(_pickedImage);
+          url = await ref.getDownloadURL();
+
+          final User user = _auth.currentUser;
+          final _uid = user.uid;
+          final productId = uuid.v4();
+          await FirebaseFirestore.instance
+              .collection('products')
+              .doc(productId)
+              .set({
+            'productId': productId,
+            'productTitle': _productTitle,
+            'price': _productPrice,
+            'productImage': url,
+            'productCategory': _productCategory,
+            'productBrand': _productBrand,
+            'productDescription': _productDescription,
+            'productQuantity': _productQuantity,
+            'userId': _uid,
+            'createdAt': Timestamp.now(),
+          });
+          Navigator.canPop(context) ? Navigator.pop(context) : null;
+        }
+      } catch (error) {
+        GlobalMethods.authErrorHandle(error.message, context);
+        print('error occured ${error.message}');
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   void _pickImageCamera() async {

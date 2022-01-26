@@ -1,13 +1,15 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:store/consts/colors.dart';
-import 'package:store/services/global_method.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:store/consts/colors.dart';
+import 'package:store/services/global_method.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -45,9 +47,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void _submitForm() async {
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
-    // var date = DateTime.now().toString();
-    // var dateparse = DateTime.parse(date);
-    // var formattedDate = "${dateparse.day}-${dateparse.month}-${dateparse.year}";
+    var date = DateTime.now().toString();
+    var dateparse = DateTime.parse(date);
+    var formattedDate = "${dateparse.day}-${dateparse.month}-${dateparse.year}";
     if (isValid) {
       _formKey.currentState.save();
       try {
@@ -57,28 +59,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
           setState(() {
             _isLoading = true;
           });
-          // final ref = FirebaseStorage.instance
-          //     .ref()
-          //     .child('usersImages')
-          //     .child(_fullName + '.jpg');
-          // await ref.putFile(_pickedImage);
-          // url = await ref.getDownloadURL();
+          final ref = FirebaseStorage.instance
+              .ref()
+              .child('usersImages')
+              .child(_fullName + '.jpg');
+          await ref.putFile(_pickedImage);
+          url = await ref.getDownloadURL();
+
           await _auth.createUserWithEmailAndPassword(
               email: _emailAddress.toLowerCase().trim(),
               password: _password.trim());
-          // final User user = _auth.currentUser;
-          // final _uid = user.uid;
-          // user.updateProfile(photoURL: url, displayName: _fullName);
-          // user.reload();
-          // await FirebaseFirestore.instance.collection('users').doc(_uid).set({
-          //   'id': _uid,
-          //   'name': _fullName,
-          //   'email': _emailAddress,
-          //   'phoneNumber': _phoneNumber,
-          //   'imageUrl': url,
-          //   'joinedAt': formattedDate,
-          //   'createdAt': Timestamp.now(),
-          // });
+          final User user = _auth.currentUser;
+          final _uid = user.uid;
+          await user.updateProfile(photoURL: url, displayName: _fullName);
+          user.reload();
+          await FirebaseFirestore.instance.collection('users').doc(_uid).set({
+            'id': _uid,
+            'name': _fullName,
+            'email': _emailAddress,
+            'phoneNumber': _phoneNumber,
+            'imageUrl': url,
+            'joinedAt': formattedDate,
+            'createdAt': Timestamp.now(),
+          });
           Navigator.canPop(context) ? Navigator.pop(context) : null;
         }
       } catch (error) {

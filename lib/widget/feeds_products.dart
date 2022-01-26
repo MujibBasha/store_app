@@ -19,16 +19,15 @@ class _FeedProductsState extends State<FeedProducts> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
       child: InkWell(
-        onTap: () => Navigator.pushNamed(context, ProductDetails.routeName,arguments:productsAttributes.id ),
+        onTap: () => Navigator.pushNamed(context, ProductDetails.routeName,
+            arguments: productsAttributes.id),
         child: Container(
           width: 250,
           height: MediaQuery.of(context).size.height * 0.6,
           decoration: BoxDecoration(
-
             borderRadius: BorderRadius.circular(6),
             color: Theme.of(context).backgroundColor,
           ),
-
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -36,12 +35,13 @@ class _FeedProductsState extends State<FeedProducts> {
                 children: [
                   ClipRect(
                       child: Container(
-
                     width: double.infinity,
-                    constraints: BoxConstraints(
-                      minHeight: 100,
-                      maxHeight: MediaQuery.of(context).size.height * 0.22,
-                    ),
+
+                    //constraints: BoxConstraints(
+                    //                       minHeight: 100,
+                    //                       maxHeight: MediaQuery.of(context).size.height * 0.22,
+                    //                     ),
+                    height: MediaQuery.of(context).size.height * 0.22,
                     child: Image.network(
                       productsAttributes.imageUrl,
                       fit: BoxFit.contain,
@@ -112,10 +112,11 @@ class _FeedProductsState extends State<FeedProducts> {
                             child: InkWell(
                               borderRadius: BorderRadius.circular(16),
                               onTap: () {
-
                                 showDialog(
                                   context: context,
-                                  builder: (BuildContext context)=>FeedDialog(productId: productsAttributes.id,),
+                                  builder: (BuildContext context) => FeedDialog(
+                                    productId: productsAttributes.id,
+                                  ),
                                 );
                               },
                               child: Container(

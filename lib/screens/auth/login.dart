@@ -1,9 +1,8 @@
-import 'package:store/consts/colors.dart';
-import 'package:store/screens/auth/forget_password.dart';
-import 'package:store/services/global_method.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:store/consts/colors.dart';
+import 'package:store/services/global_method.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
@@ -19,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _emailAddress = '';
   String _password = '';
   final _formKey = GlobalKey<FormState>();
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   GlobalMethods _globalMethods = GlobalMethods();
   bool _isLoading = false;
   @override
@@ -32,26 +31,25 @@ class _LoginScreenState extends State<LoginScreen> {
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
-      _formKey.currentState.save(); //TODO remove it later
-      // setState(() {
-      //   _isLoading = true;
-      // });
-      // _formKey.currentState.save();
-      // try {
-      //   await _auth
-      //       .signInWithEmailAndPassword(
-      //           email: _emailAddress.toLowerCase().trim(),
-      //           password: _password.trim())
-      //       .then((value) =>
-      //           Navigator.canPop(context) ? Navigator.pop(context) : null);
-      // } catch (error) {
-      //   _globalMethods.authErrorHandle(error.message, context);
-      //   print('error occured ${error.message}');
-      // } finally {
-      //   setState(() {
-      //     _isLoading = false;
-      //   });
-      // }
+      setState(() {
+        _isLoading = true;
+      });
+      _formKey.currentState.save();
+      try {
+        await _auth
+            .signInWithEmailAndPassword(
+                email: _emailAddress.toLowerCase().trim(),
+                password: _password.trim())
+            .then((value) =>
+                Navigator.canPop(context) ? Navigator.pop(context) : null);
+      } catch (error) {
+        GlobalMethods.authErrorHandle(error.message, context);
+        print('error occured ${error.message}');
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -121,7 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               return null;
                             },
                             textInputAction: TextInputAction.next,
-
                             onEditingComplete: () => FocusScope.of(context)
                                 .requestFocus(_passwordFocusNode),
                             keyboardType: TextInputType.emailAddress,
@@ -168,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               _password = value;
                             },
                             obscureText: _obscureText,
-                            onEditingComplete: (){},//_submitForm,
+                            onEditingComplete: _submitForm,
                           ),
                         ),
                         Align(
@@ -177,16 +174,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 2, horizontal: 20),
                             child: TextButton(
-                                onPressed: () {
-                                  // Navigator.pushNamed(
-                                  //     context, ForgetPassword.routeName);
-                                },
-                                child: Text(
-                                  'Forget password?',
-                                  style: TextStyle(
-                                      color: Colors.blue.shade900,
-                                      decoration: TextDecoration.underline),
-                                ),),
+                              onPressed: () {
+                                // Navigator.pushNamed(
+                                //     context, ForgetPassword.routeName);
+                              },
+                              child: Text(
+                                'Forget password?',
+                                style: TextStyle(
+                                    color: Colors.blue.shade900,
+                                    decoration: TextDecoration.underline),
+                              ),
+                            ),
                           ),
                         ),
                         Row(
@@ -207,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 ColorsConsts.backgroundColor),
                                       ),
                                     )),
-                                    onPressed: (){},//_submitForm,
+                                    onPressed: () {}, //_submitForm,
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,

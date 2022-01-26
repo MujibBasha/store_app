@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -20,15 +21,43 @@ class _UserScreenState extends State<UserScreen> {
   final _auth = FirebaseAuth.instance;
 
   var top = 0.0;
+  String _uid;
+  String _name;
+  String _email;
+  String _joinedAt;
+  String _phoneNumber;
+  String _userImageUrl;
 
   @override
   void initState() {
-    // TODO: implement initState
+    getData();
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       setState(() {});
     });
+  }
+
+  void getData() async {
+    User user = _auth.currentUser;
+    _uid = user.uid;
+    if (user.isAnonymous) {
+      setState(() {
+        _joinedAt = user.metadata.toString();
+      });
+    } else {
+      final userDoc =
+          await FirebaseFirestore.instance.collection("users").doc(_uid).get();
+
+      setState(() {
+        _email = user.email;
+        _joinedAt = userDoc.get("joinedAt");
+        _phoneNumber =
+            user.phoneNumber.toString(); // userDoc.get("phoneNumber");
+        _name = user.displayName; // userDoc.get("name");
+        _userImageUrl = userDoc.get("imageUrl");
+      });
+    }
   }
 
   @override
@@ -87,7 +116,7 @@ class _UserScreenState extends State<UserScreen> {
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                       fit: BoxFit.fill,
-                                      image: NetworkImage(
+                                      image: NetworkImage(_userImageUrl ??
                                           'https://cdn1.vectorstock.com/i/thumb-large/62/60/default-avatar-photo-placeholder-profile-image-vector-21666260.jpg'),
                                     ),
                                   ),
@@ -160,12 +189,13 @@ class _UserScreenState extends State<UserScreen> {
                       thickness: 1,
                       color: Colors.grey,
                     ),
-                    userListTile(context, "Email", "subTitle", 0, () {}),
+                    userListTile(context, "Email", _email ?? "", 0, () {}),
                     userListTile(
-                        context, "Phone number", "0927553897", 1, () {}),
+                        context, "Phone number", _phoneNumber ?? "", 1, () {}),
                     userListTile(
                         context, "Shipping address", "subTitle", 2, () {}),
-                    userListTile(context, "joined date", "subTitle", 3, () {}),
+                    userListTile(
+                        context, "joined date", _joinedAt ?? "", 3, () {}),
                     Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: userTitle(title: "User setting")),
